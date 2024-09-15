@@ -49,6 +49,37 @@ const App = () => {
 
   }
 
+  const handleMultiplyNumbers = () => {
+    if (firstNumber === '0') {
+      setFirstNumber(currentNumber);
+      setCurrentNumber('0');
+      setOperation('*');
+    } else {
+      const result = Number(firstNumber) * Number(currentNumber);
+      setCurrentNumber(String(result));
+      setFirstNumber('0');
+      setOperation('');
+    }
+  };
+
+  const handleDivideNumbers = () => {
+    if (firstNumber === '0') {
+      setFirstNumber(currentNumber);
+      setCurrentNumber('0');
+      setOperation('/');
+    } else {
+      if (currentNumber !== '0') {
+        const result = Number(firstNumber) / Number(currentNumber);
+        setCurrentNumber(String(result));
+        setFirstNumber('0');
+        setOperation('');
+      } else {
+        alert("ATENÇÂO: A divisão por zero não é permitida!");
+        handleOnClear();
+      }
+    }
+  };
+
   const handleEquals = () => {
 
     if(firstNumber !== '0' && operation !== '' && currentNumber !== '0'){
@@ -59,8 +90,14 @@ const App = () => {
           case '-':
             handleMinusNumbers();
             break;
-          default: 
-            break;
+            case "*":
+              handleMultiplyNumbers();
+              break;
+            case "/":
+              handleDivideNumbers();
+              break;
+            default:
+              break;
         }
     }
 
@@ -71,10 +108,10 @@ const App = () => {
       <Content>
         <Input value={currentNumber}/>
         <Row>
-          <Button label="x"/>
-          <Button label="/"/>
+          <Button label="0" onClick={() => handleAddNumber('0')}/>
+          <Button label="x" onClick={handleMultiplyNumbers}/>
+          <Button label="/" onClick={handleDivideNumbers}/>
           <Button label="c" onClick={handleOnClear}/>
-          <Button label="."/>
         </Row>
         <Row>
           <Button label="7" onClick={() => handleAddNumber('7')}/>
